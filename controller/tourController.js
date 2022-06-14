@@ -2,6 +2,8 @@ const fs = require('fs');
 
 const tours = JSON.parse( fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`, { encoding: 'utf-8',}));
 
+
+// get
 const getToursAll = (req, res) => {
   res.status(200).json({
     status: 'Success',
@@ -10,6 +12,8 @@ const getToursAll = (req, res) => {
     },
   });
 };
+
+// post
 const addTour = (req, res) => {
   const data = req.body;
   console.log(data);
@@ -18,11 +22,7 @@ const addTour = (req, res) => {
 
   tours.push(completeObj);
 
-  fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(tours),
-    'utf-8',
-    (err) => { 
+  fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`,JSON.stringify(tours),'utf-8',(err) => { 
       res.status(201).json({
         status: 'success',
         data: {
@@ -33,6 +33,7 @@ const addTour = (req, res) => {
   );
 };
 
+// get id
 const getTourItem = (req, res) => {
   console.log(req.time);
   const id = +req.params.id;
@@ -55,20 +56,19 @@ const getTourItem = (req, res) => {
   }
 };
 
+
+// patch
 const updateTour = (req, res) => {
   const id = +req.params.id;
   const data = tours.find((val) => val.id === id);
 };
 
+// delete
 const deleteTour = (req, res) => {
   const id = +req.params.id;
   const arr = tours.filter((val) => val.id != id);
 
-  fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(arr),
-    'utf-8',
-    (err) => {
+  fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`,JSON.stringify(arr),'utf-8',(err) => {
       res.status(204).json({
         status: 'success',
         data: 'Malumot uchirildi',
